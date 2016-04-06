@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>Natalia Margolis</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="vendor/waypoints/jquery.waypoints.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.js"></script>
+        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Special+Elite|Averia+Serif+Libre:400,700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+
+    </head>
+    <body>
+        <div id="map">
+
+            <div class="onoffswitch" title="Toggle between Tour Mode and Resume Mode">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+
+            <div id="welcome" class="floating">
+
+                <h3>Welcome!</h3>
+
+                <p>I’m a tinkerer, quick learner, and map enthusiast. Coming from the nonprofit industry and experience in grassroots movements, I am passionate about software and maps as powerful tools to make the world a better place. With a non-traditional path to software engineering, I have developed a figure-it-out attitude and the ability to pick up new technologies rapidly. I can't wait to work on creative solutions to interesting technical challenges.</p>
+                <p>This map cover letter and resume will take you through my journey to becoming a software engineer.</p>
+                <button type="button" class="tour-button nextButton" id="startTourButton">Start tour</button>
+            </div>
+
+              <div id="lastStop" class="floating">
+
+                <h3>...Your company!</h3>
+
+                <p>My experience figuring out how to solve technical problems on the job in the nonprofit world, combined with the full stack software engineering skills I've learned through Hackbright and self study, would make me a valuable addition to any team. I can't wait to work on finding creative solutions to interesting technical challenges.</p>
+                <button type="button" class="tour-button" id="endTourButton">Close and explore resume</button>
+            </div>
+
+
+            <div class="progress outer-progress">
+                <div class="progress inner-progress"></div>
+                <div class="progress-step"></div>
+            </div>
+
+        </div>
+
+            <div id="features">
+                
+            <section class="resume-intro">
+                <h2>Resume</h2>
+                <p class="center">Scroll to explore</p>
+            </section>
+            <section class="resume-intro">
+                    <h3>Tech Skills</h3> 
+                    <b>Technologies: </b> <br>
+                    Python, JavaScript, HTML, CSS, SQL, Flask, Jinja, Git <br>
+                    <b>Mapping/Design: </b> <br>
+                    GIS (arcGIS), Remote Sensing (Erdas Imagine), Adobe CS
+            </section>
+            <section id="hackbright" class="resume-item">
+                <div class="item-logo" id="hb-logo"></div>
+                <h3>Hackbright Academy</h3>
+                <p class="job-title">Software Engineering Fellow</p>
+                <ul>
+                    <li>Languages: Python, SQL, JavaScript, HTML/CSS</li>
+                    <li>Frameworks/tools: Flask, Bootstrap, Git</li>
+                    <li>Project: <a href="https://tenantconnect.herokuapp.com/">TenantConnect</a>, a web app that allows tenants to rate landlords and message each other
+                </ul>
+            </section>
+            <section id="georgetown" class="resume-item">
+                <div class="item-logo" id="gtown-logo"></div>
+                <h3>Georgetown University</h3>
+                <p class="job-title">Science, Technology and International Afairs</p>
+                <ul>
+                    <li>Relevant courses: JavaScript, C++, GIS, Remote Sensing</li>
+                </ul>
+            </section>
+            <section id="bic" class="resume-item">
+                <div class="item-logo" id="bic-logo"></div>
+                <h3>Bank Information Center</h3>
+                <p class="job-title">Information Services Coordinator</p>
+                <ul>
+                    <li>Ensured website security patches, theme and plugins were up to date and compatible</li>
+                    <li>Coordinated technology infrastructure and troubleshooting within and across offices</li>
+                    <li>Managed production on publications, including e-newsletters, case-studies and brochures</li>
+                </ul>
+            </section>
+            <section id="rgc" class="resume-item">
+                <div class="item-logo" id="rgc-logo"></div>
+                <h3>Robert Graham Center</h3>
+                <p class="job-title">Research Assistant</p>
+                <ul>
+                    <li>Conducted literature review for research on behavioral geography and access</li>
+                    <li>Identified and implemented solution for migrating to a cloud-based citation database using ETL process</li>
+                </ul>
+            </section>
+            <section id="belize" class="resume-item">
+                <div class="item-logo" id="belize-logo"></div>
+                <h3>Belize</h3>
+                <p class="job-title">Ancient Maya Geoarcheology Research Assistant</p>
+                <ul>
+                    <li>Excavated, collected, and analyzed soil profiles, water samples, and GPS data </li>
+                </ul>
+            </section>
+            <section id="mayor" class="resume-item">
+                <div class="item-logo" id="sf-logo"></div>
+                <h3>San Francisco Mayor's Office</h3>
+                <p class="job-title">Urban Agriculture Intern</p>
+                <ul>
+                    <li>Compiled, updated, and mapped data from audit of city-owned land for its urban agriculture potential</li>
+                    <li>Acted as a liaison between stakeholder groups, City departments and the Mayor’s Office</li>
+                </ul>
+            </section>
+            <section id="volunteer">
+                <h3>Volunteer Work</h3>
+                <p><b>Anti-eviction Mapping Project:</b> Mapping relocation with d3.js, cleaning and geocoding data, finidng data sources</p>
+                <p><b>DC Fair Food:</b> Cofounder of chapter of Coalition of Immokalee Workers’ ally network
+                <p><b>Student/Farmworker Alliance:</b> National steering committee member
+            </section>
+            <section id="footer">
+                <h3>Other Interests</h3> <p> When I'm not coding, mapping or organizing, I'm going on outdoor adventures, doing arts and crafts or solving crossword puzzles.</p>
+                <br>
+            </section>
+            <section id="more-info">
+                <div id="contact">
+                <h3>Find me</h3>
+                    <a href="https://github.com/Nmargolis" class="socialLink">
+                        <img src="img/stitch_github.png" alt="github" title= height="50" width="50">
+                    </a>
+                     <a href="https://www.linkedin.com/in/nataliasmargolis" class="socialLink">
+                        <img src="img/stitch_linked_in.png" alt="linkedin" height="50" width="50">
+                    </a>
+                    <a href="mailto:nmargolis89@gmail.com" class="socialLink">
+                        <img src="img/stitch_email.png" alt="email" height="50" width="50">
+                    </a>
+                    <a href="https://www.instagram.com/nmarg89" class="socialLink">
+                        <img src="img/stitch_instagram.png" alt="instagram" height="50" width="50">
+                    </a>
+                </div>
+                <p><a class="centered-link" href="https://github.com/Nmargolis/mapletter">Explore the code for this on github</a>.</p>
+
+            </section>               
+            </div>
+
+        <script type="text/javascript" src="scripts.js"></script>
+
+    </body>
+</html>
