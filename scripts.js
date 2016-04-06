@@ -304,13 +304,17 @@ $('#startTourButton').on('click', function() {
 // Hide end of tour window
 $('#endTourButton').on('click', function() {
     $('#lastStop').hide();
-})
+});
 
 
 // Define waypoints to trigger flying to resume items when they appear on screen
 var waypointsDown = $('.resume-item').waypoint(function(direction) {
 
     if (direction == 'down') {
+
+        // Close lastStop on tour if it's still open
+        $('#lastStop').hide();
+
         // Set current element to active
         setActive(this.element);
 
@@ -328,6 +332,9 @@ var waypointsDown = $('.resume-item').waypoint(function(direction) {
 var waypointsUp = $('.resume-item').waypoint(function(direction) {
 
     if (direction == 'up') {
+        // Close lastStop on tour if it's still open
+        $('#lastStop').hide();
+        
        // Set current element to active
        setActive(this.element);
 
