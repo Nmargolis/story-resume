@@ -62,7 +62,7 @@ var markers = {
             "id": "bic",
             "tourstop": 5,
             "marker-symbol": "library",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Bank Information Center</div><p>As the Information Services Coordinator at BIC, a nonprofit advocating for access to information, transparency, and accountability at the World Bank, I learned how to manage the website and IT on the job with very little training. I figured out how to update and maintain the Wordpress plugins and theme, format pages with HTML/CSS, and even write some scripts in javascript and PHP. I was in charge of everything from troubleshooting IT issues (aka googling error messages) and maintaining the server, to designing and sending newsletters.</p> <p>I believe in the work BIC does and I enjoyed tinkering with the website, but I wanted to delve more deeply into how to build web-based tools from the ground up. ...Which led me to Hackbright...</p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Bank Information Center</div><p>As the Information Services Coordinator at BIC, a nonprofit advocating for access to information, transparency, and accountability at the World Bank, I learned how to manage the website and IT on the job with very little training. I figured out how to update and maintain the Wordpress plugins and theme, format pages with HTML/CSS, and even write some scripts in javascript and PHP. I was in charge of everything from troubleshooting IT issues (aka googling error messages) and maintaining the server, to designing and sending newsletters.</p> <p>I enjoyed tinkering with the website, but I wanted to delve more deeply into how to build web-based tools from the ground up. ...Which led me to Hackbright...</p>"
         }
     }, {
         "type": "Feature",
@@ -182,7 +182,7 @@ map.on('style.load', function () {
 
 
 // Create popups
-var popup = new mapboxgl.Popup({closeButton: false, closeOnClick: false, anchor: "right"});
+var popup = new mapboxgl.Popup({closeButton: false, closeOnClick: false, anchor: "bottom"});
 
 // When a click event occurs near a marker icon, open a popup at the location of
 // the feature, with description HTML from its properties.
@@ -229,7 +229,20 @@ map.on('mousemove', function (e) {
 //Initialize global variables
 var resumeMode = false;
 var currentTourStop = 0;
+var isMobile = checkViewport();
 
+$(window).resize(function() {
+    isMobile = checkViewport();
+    if (isMobile && resumeMode) {
+        popup.remove();
+    }
+
+});
+
+function checkViewport() {
+    var vWidth = $(window).width();
+    return (vWidth <= 768) ? true : false;
+}
 
 // Go to next tour stop when next button is clicked
 // Use event delegation to bind click event to buttons that haven't been created yet
@@ -345,7 +358,9 @@ var waypointsUp = $('.resume-item').waypoint(function(direction) {
         fly(markerMatch);
 
     }}, {
-            offset: '29%',
+            // Set offset to only 5% on mobile, otherwise 29%
+            // Note: I believe his only happens once, so it will be set according to initial screen size
+            offset: (isMobile) ? '5%' : '29%',
             context: $('#features')
 });
 
@@ -363,7 +378,7 @@ function scrollToFeature(feature) {
 
     $('#features').scrollTo($(resumeItemId), 800, {
         offset: function() {
-            var topOffset = -0.20 * $(window).height();
+            var topOffset = -0.30 * $(window).height();
             return {top: topOffset};
         },
         onAfter: function() {
@@ -379,7 +394,8 @@ function openPopup(marker) {
     var previousButtonHTML = '<button type=\"button\" class=\"previousButton\">Previous</button>';
     var nextButtonHTML = '<button type=\"button\" class=\"nextButton\">Next</button></div>';
     // var restartTourButtonHTML = '<button type=\"button\"class=\"previousButton\">Restart Tour</button>';
-    
+    popup.remove();
+
     // If the marker is not a cluster
     if (!marker.properties.cluster) {
 
@@ -394,9 +410,15 @@ function openPopup(marker) {
             content = marker.properties.description + previousButtonHTML + nextButtonHTML;
         }
 
-    popup.setLngLat(marker.geometry.coordinates)
-    .setHTML(content)
-    .addTo(map);
+        popup.setLngLat(marker.geometry.coordinates)
+        .setHTML(content);
+
+        // At end of flyTo animation
+        map.once('moveend', function(){
+            // Hide airplane and reset it to face east
+            $('#airplane').removeClass('visible west');
+            popup.addTo(map);
+        });
     }
 }
 
@@ -433,17 +455,35 @@ function fly(markerMatch) {
     map.flyTo({
         center: markerMatch.geometry.coordinates,
         zoom: 13.5,
-        pitch: 20
+        pitch: 20,
+        offset: (resumeMode) ? [-225, 200] : [0,200]
     });
 
-    // // At end of flyTo animation
-    // map.once('moveend', function(){
-    //     // Open the associated popup
-    //     openPopup(markerMatch);
-    // });
-
-    openPopup(markerMatch);
+      // If it's not resume mode on mobile
+      if (!(isMobile && resumeMode)) {
+        // And if it's not resume mode at all
+        if (!resumeMode) {
+            // Show airplane
+            showAirplane(markerMatch);
+        }
+        // Open the popup
+        openPopup(markerMatch);
+        }
     
+}
+
+function showAirplane(markerMatch) {
+    
+    var currentLng = map.getCenter().lng;
+ 
+    var nextLng = markerMatch.geometry.coordinates[0];
+    
+    // if next lng is less than current lng, add class west so airplane faces west
+    if (nextLng < currentLng) {
+        $('#airplane').addClass('west');
+    }
+    // Show airplane
+    $('#airplane').addClass('visible');
 }
 
 function startTour() {
@@ -559,23 +599,23 @@ $(document).ready( function () {
 
 
     // Easter egg
-    console.log("%c  |  .  .   .  *     .  .        . .   * \r\n" +
-"%c -0-       _..._    *    .   .      .    \r\n" +
-"%c  |   .  .'     '. .    _        .     . \r\n" +
-"%c .      /    .-\"\"-\\   _/ \\    .  *       \r\n" +
-"%c   *  .-|   /:a  a|  |   |    .          \r\n" +
-"%c.   . |  \\  |:    /.-'-./  . |   .  .     \r\n" +
-"%c      | .-'-;:__.'    =/    -0- .     . \r\n" +
-"%c*     .'=  *=|     _.='   .  |           \r\n" +
-"%c  .  /   _.  |    ;    .   .    *  .  .   \r\n" +
-"%c    ;-.-'|    \\   | .   .    .  .     .    \r\n" +
-"%c.  /   | \\    _\\  _\\       .-o--.        \r\n" +
-"%c   \\__/'._;.  ==' ==\\  .  :O o O :  .    \r\n" +
-"%c  .    .    \\    \\   |    : O. Oo;     . \r\n" +
-"%c*    .    . /    /   /   . `-.O-\'   *    \r\n" +
-"%c  .    |    /-._/-._/  .          .  .   \r\n" +
-"%c      -0-   \\   `\\  \\     * .            \r\n" +
-"%c.    . |   * `-._/._/  .   .   .    .  .  \r\n",'color:#ff0000','color:#ff4000','color:#ff8000','color:#ffbf00','color:#ffff00','color:#bfff00','color:#00ff00','color:#00ffbf','color:#00ffff','color:#00bfff','color:#0080ff','color:#0000ff','color:#4000ff','color:#8000ff','color:#bf00ff','color:#ff00ff','color:#ff00bf');
+    console.log("%cHello!\n  |  .  .   .  *     .  .        . .   *\r\n" +
+"%c -0-       _..._    *    .   .      .   \r\n" +
+"%c  |   .  .'     '. .    _        .     .\r\n" +
+"%c .      /    .-\"\"-\\   _/ \\    .  *      \r\n" +
+"%c   *  .-|   /:a  a|  |   |    .         \r\n" +
+"%c.   . |  \\  |:    /.-'-./  . |   .  .    \r\n" +
+"%c      | .-'-;:__.'    =/    -0- .     .\r\n" +
+"%c*     .'=  *=|     _.='   .  |          \r\n" +
+"%c  .  /   _.  |    ;    .   .    *  .  .  \r\n" +
+"%c    ;-.-'|    \\   | .   .    .  .     .   \r\n" +
+"%c.  /   | \\    _\\  _\\       .-o--.       \r\n" +
+"%c   \\__/'._;.  ==' ==\\  .  :O o O :  .   \r\n" +
+"%c  .    .    \\    \\   |    : O. Oo;    . \r\n" +
+"%c*    .    . /    /   /   . `-.O-\'   *   \r\n" +
+"%c  .    |    /-._/-._/  .          .  .  \r\n" +
+"%c      -0-   \\   `\\  \\     * .           \r\n" +
+"%c.    . |   * `-._/._/  .   .   .    . .  \r\n",'color:#ff0000','color:#ff4000','color:#ff8000','color:#ffbf00','color:#ffff00','color:#bfff00','color:#00ff00','color:#00ffbf','color:#00ffff','color:#00bfff','color:#0080ff','color:#0000ff','color:#4000ff','color:#8000ff','color:#bf00ff','color:#ff00ff','color:#ff00bf');
 
 });
 
