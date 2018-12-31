@@ -8,6 +8,21 @@ var map = new mapboxgl.Map({
     center: [-98.613, 40],
     zoom: 3
 });
+const handlers = ['boxZoom','scrollZoom','dragPan','dragRotate','keyboard','doubleClickZoom',
+'touchZoomRotate'];
+
+function disableInteraction(handlers) {
+    handlers.forEach(function(handler) {
+        map[handler].disable();
+    });
+}
+
+function enableInteraction(handlers) {
+    handlers.forEach(function(handler) {
+        map[handler].enable();
+    });
+}
+
 
 // Define markers
 var markers = {
@@ -135,7 +150,6 @@ map.on('style.load', function () {
 
     // Display the marker data in two layers, each filtered to a range of
     // count values. Each range gets a different fill color.
-    // TODO: Show point_count for 1
     var layers = [
         [2, '#f1f075'],
         [0, '#fff']
@@ -183,48 +197,6 @@ map.on('style.load', function () {
 
 // Create popups
 var popup = new mapboxgl.Popup({closeButton: false, closeOnClick: false, anchor: "bottom"});
-
-// When a click event occurs near a marker icon, open a popup at the location of
-// the feature, with description HTML from its properties.
-map.on('click', function (e) {
-    map.featuresAt(e.point, {
-        radius: 7.5, // Half the marker size (15px).
-        includeGeometry: true,
-        layer: 'markers'
-    }, function (err, features) {
-
-        if (err || !features.length) {
-            // Don't remove popup if user clicks outside it. Otherwise user could get lost on tour.
-            // popup.remove();
-            return;
-        }
-
-        var feature = features[0];
-
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-        openPopup(feature);
-
-        // Fly to feature
-        fly(feature);
-
-        // Scroll to the resume item in the sidebar
-        scrollToFeature(feature);
-
-    });
-});
-
-// Use the same approach as above to indicate that the symbols are clickable
-// by changing the cursor style to 'pointer'.
-map.on('mousemove', function (e) {
-    map.featuresAt(e.point, {
-        radius: 7.5, // Half the marker size (15px).
-        layer: 'markers'
-    }, function (err, features) {
-        map.getCanvas().style.cursor = (!err && features.length) ? 'pointer' : '';
-    });
-});
-
 
 //Initialize global variables
 var resumeMode = false;
@@ -414,7 +386,8 @@ function openPopup(marker) {
         .setHTML(content);
 
         // At end of flyTo animation
-        map.once('moveend', function(){
+        map.once('moveend', function() {
+            enableInteraction(handlers);
             // Hide airplane and reset it to face east
             $('#airplane').removeClass('visible west');
             popup.addTo(map);
@@ -451,6 +424,7 @@ function findNextTourStop(tourStopId) {
 }
 
 function fly(markerMatch) {
+    disableInteraction(handlers);
     // Fly to the matching marker
     map.flyTo({
         center: markerMatch.geometry.coordinates,
@@ -553,7 +527,6 @@ function enableTourMode() {
 }
 
 function toggleResumeMode(){
-    //resumeMode =!resumeMode;
 
     if(!resumeMode) {
         //if in resumeMode
@@ -591,31 +564,29 @@ $(document).ready( function () {
     $('body').scrollTop(0);
     $('#features').scrollTop(0);
 
-    // Hide toggle button to begirn with
-    $('.onoffswitch').hide();
 
     // start with Waypoints disabled
     Waypoint.disableAll();
 
 
     // Easter egg
-    console.log("%cHello!\n  |  .  .   .  *     .  .        . .   *\r\n" +
-"%c -0-       _..._    *    .   .      .   \r\n" +
-"%c  |   .  .'     '. .    _        .     .\r\n" +
-"%c .      /    .-\"\"-\\   _/ \\    .  *      \r\n" +
-"%c   *  .-|   /:a  a|  |   |    .         \r\n" +
-"%c.   . |  \\  |:    /.-'-./  . |   .  .    \r\n" +
-"%c      | .-'-;:__.'    =/    -0- .     .\r\n" +
-"%c*     .'=  *=|     _.='   .  |          \r\n" +
-"%c  .  /   _.  |    ;    .   .    *  .  .  \r\n" +
-"%c    ;-.-'|    \\   | .   .    .  .     .   \r\n" +
-"%c.  /   | \\    _\\  _\\       .-o--.       \r\n" +
-"%c   \\__/'._;.  ==' ==\\  .  :O o O :  .   \r\n" +
-"%c  .    .    \\    \\   |    : O. Oo;    . \r\n" +
-"%c*    .    . /    /   /   . `-.O-\'   *   \r\n" +
-"%c  .    |    /-._/-._/  .          .  .  \r\n" +
-"%c      -0-   \\   `\\  \\     * .           \r\n" +
-"%c.    . |   * `-._/._/  .   .   .    . .  \r\n",'color:#ff0000','color:#ff4000','color:#ff8000','color:#ffbf00','color:#ffff00','color:#bfff00','color:#00ff00','color:#00ffbf','color:#00ffff','color:#00bfff','color:#0080ff','color:#0000ff','color:#4000ff','color:#8000ff','color:#bf00ff','color:#ff00ff','color:#ff00bf');
+    console.log("%cHello!\n  |  .  .   .  *     .  .        . .   * \r\n" +
+"%c -0-       _..._    *    .   .      .    \r\n" +
+"%c  |   .  .'     '. .    _        .     . \r\n" +
+"%c .      /    .-\"\"-\\   _/ \\    .  *       \r\n" +
+"%c   *  .-|   /:a  a|  |   |    .          \r\n" +
+"%c.   . |  \\  |:    /.-'-./  . |   .  .     \r\n" +
+"%c      | .-'-;:__.'    =/    -0- .     . \r\n" +
+"%c*     .'=  *=|     _.='   .  |           \r\n" +
+"%c  .  /   _.  |    ;    .   .    *  .  .   \r\n" +
+"%c    ;-.-'|    \\   | .   .    .  .     .    \r\n" +
+"%c.  /   | \\    _\\  _\\       .-o--.        \r\n" +
+"%c   \\__/'._;.  ==' ==\\  .  :O o O :  .    \r\n" +
+"%c  .    .    \\    \\   |    : O. Oo;    .  \r\n" +
+"%c*    .    . /    /   /   . `-.O-\'   *    \r\n" +
+"%c  .    |    /-._/-._/  .          .  .   \r\n" +
+"%c      -0-   \\   `\\  \\     * .            \r\n" +
+"%c.    . |   * `-._/._/  .   .   .    . .   \r\n",'color:#ff0000','color:#ff4000','color:#ff8000','color:#ffbf00','color:#ffff00','color:#bfff00','color:#00ff00','color:#00ffbf','color:#00ffff','color:#00bfff','color:#0080ff','color:#0000ff','color:#4000ff','color:#8000ff','color:#bf00ff','color:#ff00ff','color:#ff00bf');
 
 });
 
