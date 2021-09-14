@@ -77,7 +77,7 @@ var markers = {
             "id": "bic",
             "tourstop": 5,
             "marker-symbol": "library",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Bank Information Center</div><p>As the Information Services Coordinator at BIC, a nonprofit advocating for access to information, transparency, and accountability at the World Bank, I learned how to manage the website and IT on the job with very little training. I figured out how to update and maintain the Wordpress plugins and theme, format pages with HTML/CSS, and even write some scripts in javascript and PHP. I was in charge of everything from troubleshooting IT issues (aka googling error messages) and maintaining the server, to designing and sending newsletters.</p> <p>I enjoyed tinkering with the website, but I wanted to delve more deeply into how to build web-based tools from the ground up. ...Which led me to Hackbright...</p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Bank Information Center</div><p>As the Information Services Coordinator at BIC, a nonprofit advocating for access to information, transparency, and accountability at the World Bank, I learned how to manage the website and IT on the job with very little training. I figured out how to update and maintain the Wordpress plugins and theme, format pages with HTML/CSS, and even write some scripts in javascript and PHP. I was in charge of everything from troubleshooting IT issues (aka googling error messages) and maintaining the server, to designing and sending newsletters.</p> <p>I enjoyed tinkering with the website, but I wanted to delve more deeply into how to build web-based tools from the ground up, which led me to...</p>"
         }
     }, {
         "type": "Feature",
@@ -103,7 +103,7 @@ var markers = {
             "id": "hackbright",
             "tourstop": 6,
             "marker-symbol": "college",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Fellow at Hackbright Academy</div><p>As a fellow in the intensive 12 week program, I learned how to build a web app from end to end. I built an app called TenantConnect for tenants to rate landlords, look up landlords by address or name, and message each other to facilitate knowledge sharing and organizing.</p><p> Hackbright taught me the languages (Python, SQL, JavaScript, HTML/CSS), tools (frameworks like Flask and Bootstrap, Git, command line, etc), and concepts (object orientation, testing, data modeling, data structures etc.) of software engineering. But the most valuable experience I gained at Hackbright was learning how to learn, and that will allow me to continue to pick up new languages and technologies in the future.</p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Fellow at Hackbright Academy</div><p>As a fellow in the intensive 12 week program, I learned how to build a web app from end to end. I built an app prototype for tenants to rate landlords, look up landlords by address or name, and message each other to facilitate knowledge sharing and organizing.</p><p> At Hackbright, I dipped my toe into some programming fundamentals, but the most valuable experience I gained was learning how to learn, and that experience chipping away at unknown concepts has helped me pick up new languages and technologies a  .</p>"
         }
     }, {
         "type": "Feature",
@@ -122,14 +122,41 @@ var markers = {
         "type": "Feature",
         "geometry": {
             "type": "Point",
+            "coordinates": [-122.271073,37.8062869],
+        },
+        "properties": {
+            "title": "HUGE",
+            "id": "huge",
+            "tourstop": 8,
+            "marker-symbol": "art-gallery",
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">HUGE</div><p>As a mostly front-end engineer at HUGE, I developed websites for large clients. I also spearheaded a partnership with United We Dream, the largest immigrant youth-led network in the country, to build an app for immigrants to prepare for the risk of deportation called <a href=\"https://notifica.us\" target=\"_blank\">Notifica</a>.</p>"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-122.396606, 37.791534],
+        },
+        "properties": {
+            "title": "Mapbox",
+            "id": "mapbox",
+            "tourstop": 9,
+            "marker-symbol": "globe",
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Mapbox</div><p>On the core Search engine team, I helped answer the question \"Where in the world is (Carmen) San Diego?\" While Mapbox makes tools for interactive maps like this one, sometimes you just want an image of a map. That's what I do now on the Static Maps API team.</a></p>"
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
             "coordinates": [0, 0]
         },
         "properties": {
             "title": "Null Island",
             "id": "null-island",
-            "tourstop": 8,
+            "tourstop": 10,
             "marker-symbol": "danger",
-            "description": "<div class=\"marker-title\">Null Island</div><p>The journey hasn't always been smooth... I love tackling complex problems while coding, which means sometimes I face challenges and don't get the results I wanted... but then I learn something new!</p> <p><img src=\"img/fail.gif\" alt=\"Computer fail\" style=\"width:200px;height:200px;\"></p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Null Island</div><p>The journey hasn't always been smooth... I love tackling complex problems while coding, which means sometimes I face challenges and don't get the results I wanted... but then I learn something new!</p> <p><img src=\"img/fail.gif\" alt=\"Computer fail\" style=\"width:200px;height:200px;\"></p>"
         }
     },
     ]
@@ -223,7 +250,7 @@ $(document).on('click', '.nextButton', function() {
     currentTourStop++;
     
     // If next stop is the last stop, enable resume mode automatically
-    if (currentTourStop == 9) {
+    if (currentTourStop == 11) {
 
         // Remove current popup
         popup.remove();
@@ -272,7 +299,7 @@ $(document).on('click', '.previousButton', function() {
     }
 
     // If user clicks back button on last stop, after resume mode has automatically been activated
-    if (currentTourStop == 8) {
+    if (currentTourStop == 10) {
 
         // Toggle back to tour mode
         toggleResumeMode();
@@ -374,7 +401,7 @@ function openPopup(marker) {
         if (resumeMode === true) {
             content = marker.properties.description;
         }
-        else if (currentTourStop == 9) {
+        else if (currentTourStop == 11) {
             // Show the last stop div
             $('#lastStop').show();
         }
@@ -442,7 +469,7 @@ function fly(markerMatch) {
         }
         // Open the popup
         openPopup(markerMatch);
-        }
+    }
     
 }
 
@@ -549,8 +576,8 @@ $("#myonoffswitch").change(function() {
 // Function to update progress bar
 function updateProgress(currentTourStop){
 
-    width = '' + currentTourStop/9 * 100 + '%';
-    step = 'Step ' + currentTourStop + '/9';
+    width = '' + currentTourStop/11 * 100 + '%';
+    step = currentTourStop + '/11';
 
     $('.inner-progress').css('width', width);
     $('.progress-step').text(step);

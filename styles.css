@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 
 body,
 html {
@@ -49,7 +52,7 @@ a:visited {
 
 #features {
     position: absolute;
-    z-index: 9999999999;
+    z-index: 9999;
     top: 0;
     right: 0;
     bottom: 0;
@@ -169,7 +172,7 @@ a:visited {
     top: 50%;
     left: 50%;
 
-    max-width: 400px;
+    width: 400px;
     height: auto;
     margin-top: -200px;
     margin-left: -200px;
@@ -226,7 +229,7 @@ button:hover {
 
 .onoffswitch {
     position: fixed;
-    z-index: 999;
+    z-index: 99999;
 
     display: none;
 
@@ -279,7 +282,7 @@ button:hover {
     padding-left: 10px;
 
     color: #fff;
-    background-color: #ee8a65;
+    background-color: #cacaca;
 
     content: 'Tour mode on';
 }
@@ -320,8 +323,9 @@ button:hover {
 
 /* Center social media links */
 #contact {
-    width: 212px;
+    width: 75%;
     margin: 0 auto;
+    text-align: center;
 }
 
 /* Get rid of underline on social links */
@@ -333,7 +337,7 @@ button:hover {
 /* Progress bar styles */
 .progress {
     position: absolute;
-    z-index: 999999;
+    z-index: 999;
     top: 0;
 
     height: 34px;
@@ -353,20 +357,20 @@ button:hover {
 .inner-progress {
     border-radius: 20px;
     background-color: #ee8a65;
-
+    height: 30px;
     transition: all .3s ease-in-out;
 }
 
 .progress-step {
     position: absolute;
-    right: -60px;
+    right: 6px;
 
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
     line-height: 30px;
 
-    color: #999;
+    color: #666;
 }
 
 /*center p under resume header*/
@@ -425,8 +429,8 @@ button:hover {
 
     .progress-step {
         z-index: 99999999;
-        right: inherit;
-        left: 75%;
+        right: 6;
+        /* left: 75%; */
 
         color: #ccc;
     }
