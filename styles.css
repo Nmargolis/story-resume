@@ -371,6 +371,7 @@ button:hover {
     line-height: 30px;
 
     color: #666;
+    z-index: 99999999;
 }
 
 /*center p under resume header*/
