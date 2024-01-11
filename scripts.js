@@ -90,7 +90,8 @@ var markers = {
             "id": "belize",
             "tourstop": 3,
             "marker-symbol": "campsite",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Maya Geoarcheology Research</div><p>As a research assistant in Belize for two summers in a row, I studied soil science and geoarcheology with a professor researching Ancient Maya agriculture and water systems.</p><p>Responsibilities included trudging through wetlands surveying and taking GPS points, digging lots of soil pits, pushing trucks out of the mud, and staving off swarms of killer bees... FOR SCIENCE!!!</p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Maya Geoarcheology Research</div><p>As a research assistant in Belize for two summers in a row, I studied soil science and geoarcheology with a professor researching Ancient Maya agriculture and water systems.</p><p>Responsibilities included trudging through wetlands surveying and taking GPS points, digging lots of soil pits, pushing trucks out of the mud, and staving off swarms of killer bees... FOR SCIENCE!!!</p>",
+            "zoom": 7
         }
     }, {
         "type": "Feature",
@@ -142,7 +143,21 @@ var markers = {
             "id": "mapbox",
             "tourstop": 9,
             "marker-symbol": "globe",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Mapbox</div><p>On the core Search engine team, I helped answer the question \"Where in the world is (Carmen) San Diego?\" While Mapbox makes tools for interactive maps like this one, sometimes you just want an image of a map. That's what I do now on the Static Maps API team.</a></p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Mapbox</div><p>On the core Search engine team, I helped answer the question \"Where in the world is (Carmen) San Diego?\" While Mapbox makes tools for interactive maps like this one, sometimes you just want an image of a map. That's what I did on the Static Maps API team.</p>"
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-122.267903, 37.869892]
+        },
+        "properties": {
+            "title": "The Washington Post",
+            "id": "wapo",
+            "tourstop": 10,
+            "marker-symbol": "library",
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">The Washington Post</div><p>On Interactive News Engineering team, I built tools for journalists to enable interactive storytelling. I worked on a variety of projects, for example creating a library of reusable React components, a TikTok scraper, and a daily news quiz game called <a href=\"https://washingtonpost.com/news-quiz\" target=\"_blank\">On The Record</a>.</p>"
         }
     },
     {
@@ -154,9 +169,10 @@ var markers = {
         "properties": {
             "title": "Null Island",
             "id": "null-island",
-            "tourstop": 10,
+            "tourstop": 11,
             "marker-symbol": "danger",
-            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Null Island</div><p>The journey hasn't always been smooth... I love tackling complex problems while coding, which means sometimes I face challenges and don't get the results I wanted... but then I learn something new!</p> <p><img src=\"img/fail.gif\" alt=\"Computer fail\" style=\"width:200px;height:200px;\"></p>"
+            "description": "<div class=\"tourPopupContent\"><div class=\"marker-title\">Null Island</div><p>Couldn't resist a pit stop on Null Island, (0°N, 0°E), infamous to developers as the place you end up when there's a bug. Enjoy this liminal space before the final stop on the journey...</p> <p><img src=\"img/fail.gif\" alt=\"Computer fail\" style=\"width:200px;height:200px;\"></p>",
+            "zoom": 4
         }
     },
     ]
@@ -250,7 +266,7 @@ $(document).on('click', '.nextButton', function() {
     currentTourStop++;
     
     // If next stop is the last stop, enable resume mode automatically
-    if (currentTourStop == 11) {
+    if (currentTourStop == 12) {
 
         // Remove current popup
         popup.remove();
@@ -268,11 +284,8 @@ $(document).on('click', '.nextButton', function() {
     }
 
     else {
-
-    var nextStop = findNextTourStop(currentTourStop);
-
-    fly(nextStop);
-    // scrollToFeature(nextStop);
+        var nextStop = findNextTourStop(currentTourStop);
+        fly(nextStop);
     }
 
     // Update progress bar
@@ -401,7 +414,7 @@ function openPopup(marker) {
         if (resumeMode === true) {
             content = marker.properties.description;
         }
-        else if (currentTourStop == 11) {
+        else if (currentTourStop == 12) {
             // Show the last stop div
             $('#lastStop').show();
         }
@@ -455,7 +468,7 @@ function fly(markerMatch) {
     // Fly to the matching marker
     map.flyTo({
         center: markerMatch.geometry.coordinates,
-        zoom: 13.5,
+        zoom: markerMatch.properties.zoom || 13.5,
         pitch: 20,
         offset: (resumeMode) ? [-225, 200] : [0,200]
     });
@@ -546,11 +559,12 @@ function disableResumeMode() {
 function enableTourMode() {
 
     disableResumeMode();
-    startTour();
 
     // Change popup content
     $('.resumePopupContent').hide();
     $('.tourPopupContent').show();
+    $('#lastStop').hide();
+    startTour();
 }
 
 function toggleResumeMode(){
@@ -576,8 +590,8 @@ $("#myonoffswitch").change(function() {
 // Function to update progress bar
 function updateProgress(currentTourStop){
 
-    width = '' + currentTourStop/11 * 100 + '%';
-    step = currentTourStop + '/11';
+    width = '' + currentTourStop/12 * 100 + '%';
+    step = currentTourStop + '/12';
 
     $('.inner-progress').css('width', width);
     $('.progress-step').text(step);
