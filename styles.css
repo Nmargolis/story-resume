@@ -166,6 +166,18 @@ a:visited {
     background-image: url(img/sfseal.png);
 }
 
+#wapo-logo {
+    background-image: url(img/wapo-logo.png);
+}
+
+#mapbox-logo {
+    background-image: url(img/mapbox-logo.png);
+}
+
+#huge-logo {
+    background-image: url(img/huge-logo.png);
+}
+
 .floating {
     position: absolute;
     z-index: 99999;
