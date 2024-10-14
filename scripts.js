@@ -1,7 +1,8 @@
 
 
 // Initialize map
-mapboxgl.accessToken = 'pk.eyJ1Ijoibm1hcmdvbGlzODkiLCJhIjoiY2lnbXZlem9xMDAzdDZjbTM4a2tteXdzMSJ9.j6aj2wMzUUb8FZR1XMBiBg';
+mapboxgl.accessToken =
+  "pk.eyJ1Ijoibm1hcmdvbGlzODkiLCJhIjoiY20yOWdodWVxMDU1ODJrcTE5b3lsN2FvciJ9.pJkOxFMC-D_jmsumnHAbKQ";
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/nmargolis89/cim3wwy0x00atcwm2i0dmga0z',
